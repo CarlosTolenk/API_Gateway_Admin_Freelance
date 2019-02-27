@@ -13,7 +13,7 @@ Client secret: Zb1i7gHKdRMlfYCWraHgaDvYso0lO6kWWEhvsxBj
 Client ID: 2
 Client secret: cuFdmPpBcgZoRHqLA3098sX6xK2KCUqjtP4Lltt2
 
-
+php artisan passport:client --personal
 
 ## License
 

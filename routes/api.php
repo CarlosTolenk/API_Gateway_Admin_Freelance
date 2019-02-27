@@ -23,6 +23,16 @@ Route::get('welcome', function(){
     return response()->json(['data' => 'Bienvenido a la API Admin Freelance'], Response::HTTP_OK);
 });
 
+
+Route::group([      
+    'prefix' => 'password'
+], function () {    
+    Route::post('create', 'PasswordResetController@create');
+    Route::get('find/{token}', 'PasswordResetController@find');
+    Route::post('reset', 'PasswordResetController@reset');
+});
+
+
 Route::group([
     'prefix' => 'auth'
 ], function () {
