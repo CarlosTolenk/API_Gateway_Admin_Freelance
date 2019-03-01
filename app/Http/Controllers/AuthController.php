@@ -109,6 +109,13 @@ class AuthController extends Controller
         return response()->json($request->user());
     }
 
+    public function getOnlyUser($email){
+        $user = User::where('email', $email)->first();
+        return response()->json([
+            'data' => $user
+        ]);
+    }
+
 
 
     public function signupActivate($token)
@@ -122,7 +129,8 @@ class AuthController extends Controller
         $user->active = true;
         $user->activation_token = '';
         $user->save();
-        return $user;
+        return redirect('http://localhost:4200/confirmed-register');
+        // return $user;
     }
 
 

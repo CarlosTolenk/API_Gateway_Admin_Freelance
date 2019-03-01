@@ -41,7 +41,7 @@ class PasswordResetController extends Controller
                 new PasswordResetRequest($passwordReset->token)
             );
         return response()->json([
-            'message' => 'We have e-mailed your password reset link!'
+            'message' => 'We have e-mailed your password reset link!',        
         ]);
     }
     
@@ -66,8 +66,35 @@ class PasswordResetController extends Controller
                 'message' => 'This password reset token is invalid.'
             ], 404);
         }
-        return response()->json($passwordReset);
+        // return response()->json($passwordReset);
+        return redirect('http://localhost:4200/change-password/'.$passwordReset->id.'/'.$passwordReset->token);
+       
     }
+
+
+        /**
+     * Find Client for password reset
+     *
+     * @param  [string] $token
+     * @return [string] message
+     * @return [json] passwordReset object
+     */
+    public function findClient($id)
+    {
+        $clientRequest = PasswordReset::where('id', $id)->first();
+     
+    
+        return response()->json($clientRequest);
+ 
+       
+    }
+
+
+
+
+
+
+
      /**
      * Reset password
      *
