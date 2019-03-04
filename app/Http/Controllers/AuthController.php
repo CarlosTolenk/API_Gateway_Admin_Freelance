@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 use App\Notifications\SignupActivate;
 use App\User;
+use App\Role;
 
 class AuthController extends Controller
 {
@@ -33,10 +34,18 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
             'activation_token' => str_random(60)
         ]);
-        $user->save();
+        //Search Role
+        $role_doc_basic = Role::where('name', 'doc_basic')->first();     
+   
+        //Save User
+        $user->save();     
+        
+        //Attachment the role
+        $user->roles()->attach($role_doc_basic);      
 
         $user->notify(new SignupActivate($user));
-
+     
+    
         return response()->json([
             'message' => 'Successfully created user!'
         ], 201);
@@ -78,6 +87,7 @@ class AuthController extends Controller
         $token->save();
 
         return response()->json([
+            'user' => $user,
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
@@ -117,7 +127,6 @@ class AuthController extends Controller
     }
 
 
-
     public function signupActivate($token)
     {
         $user = User::where('activation_token', $token)->first();
@@ -128,9 +137,9 @@ class AuthController extends Controller
         }
         $user->active = true;
         $user->activation_token = '';
-        $user->save();
+        $user->save();  
         return redirect('http://localhost:4200/confirmed-register');
-        // return $user;
+
     }
 
 

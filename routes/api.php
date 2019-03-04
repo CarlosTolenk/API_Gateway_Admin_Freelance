@@ -40,13 +40,28 @@ Route::group([
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
     Route::get('signup/activate/{token}', 'AuthController@signupActivate');
-    Route::get('signup/activate/{token}', 'AuthController@getOnlyUser');   
     Route::get('user/{email}', 'AuthController@getOnlyUser');
  
     Route::group([
       'middleware' => 'auth:api'
     ], function() {
         Route::get('logout', 'AuthController@logout');      
+    });
+});
+
+Route::group([
+    'prefix' => 'patient'
+], function () {
+    Route::get('proof', function(){
+        return "Controlador de Pacientes";
+    });
+});
+
+Route::group([
+    'prefix' => 'stats'
+], function () {
+    Route::get('proof', function(){
+        return "Visualizarlos de estásticas";
     });
 });
 
