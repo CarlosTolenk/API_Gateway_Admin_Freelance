@@ -45,24 +45,34 @@ Route::group([
     Route::group([
       'middleware' => 'auth:api'
     ], function() {
-        Route::get('logout', 'AuthController@logout');      
+        Route::get('logout', 'AuthController@logout');  
     });
 });
 
+
 Route::group([
     'prefix' => 'patient'
-], function () {
-    Route::get('proof', function(){
-        return "Controlador de Pacientes";
+], function () { 
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+        Route::get('proof', function(){
+            return [ 'message' => 'Vista de los paciente'];
+        });  
     });
 });
 
 Route::group([
     'prefix' => 'stats'
-], function () {
-    Route::get('proof', function(){
-        return "Visualizarlos de estásticas";
+], function () { 
+    Route::group([
+      'middleware' => ['isStats']
+    ], function() {
+        Route::get('proof', function(){
+            return [ 'message' => 'Visualizarlos de estásticas'];
+        });  
     });
 });
+
 
 
